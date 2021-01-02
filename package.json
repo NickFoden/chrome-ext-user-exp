@@ -1,0 +1,24 @@
+{
+  "name": "chrome-ext-user-exp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "background.js",
+  "dependencies": {
+    "@types/chrome": "0.0.127"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NickFoden/chrome-ext-user-exp.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NickFoden/chrome-ext-user-exp/issues"
+  },
+  "homepage": "https://github.com/NickFoden/chrome-ext-user-exp#readme"
+}
