@@ -14,5 +14,16 @@ function change_theme(theme) {
   }
 }
 theme_button.addEventListener("click", (event) => {
-  change_theme(theme_button.innerText.toLowerCase());
+  chrome.runtime.sendMessage({
+    message: "set_theme",
+    payload: theme_button.innerText.toLowerCase(),
+  });
+  // change_theme(theme_button.innerText.toLowerCase());
+});
+
+chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
+  if (req.message === "change_theme") {
+    change_theme(req.payload);
+    sendResponse({ message: "success" });
+  }
 });

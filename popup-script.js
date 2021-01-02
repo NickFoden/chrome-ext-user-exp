@@ -20,4 +20,11 @@ ranking_form.addEventListener("submit", (event) => {
   ranking_form.style.opacity = 0;
   thank_you.style.opacity = 1;
   ranking_form.style.pointerEvents = "none";
+  chrome.runtime.sendMessage({
+    message: "set_ranking_data",
+    payload: {
+      ranking: ranking.value,
+      comment: comments.value,
+    },
+  });
 });

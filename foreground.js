@@ -32,3 +32,10 @@ function display_message(ranking) {
     modal_ranking.style.color = "rgba(255, 255, 255, 0)";
   }, 3001);
 }
+
+chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
+  if (req.message === "display_message") {
+    display_message(req.payload);
+    sendResponse({ message: "success" });
+  }
+});
