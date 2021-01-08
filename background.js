@@ -1,6 +1,18 @@
 let current_active_tabId = null;
 let THEME = null;
 
+function init() {
+  try {
+    chrome.storage.local.get(["theme"], (result) => {
+      THEME = result.theme || "light";
+    });
+  } catch (err) {
+    THEME = "light";
+  }
+}
+
+init();
+
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   current_active_tabId = tabId;
   if (changeInfo.status === "complete" && tab.url.includes("http")) {
@@ -27,16 +39,23 @@ chrome.tabs.onActivated.addListener((activeInfo, windowId) => {
 chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
   if (req.message === "set_theme") {
     THEME = req.payload;
-    chrome.runtime.sendMessage(
-      {
-        message: "change_theme",
-        payload: THEME,
-      },
-      () => {
-        sendResponse({ message: "succes" });
-      }
-    );
-  } else if ((req.message = "set_ranking_data")) {
+
+    try {
+      chrome.storage.local.set({ theme: THEME }, () => {
+        chrome.runtime.sendMessage(
+          {
+            message: "change_theme",
+            payload: THEME,
+          },
+          () => {
+            sendResponse({ message: "success" });
+          }
+        );
+      });
+    } catch (err) {
+      sendResponse({ message: "fail" });
+    }
+  } else if (req.message === "set_ranking_data") {
     chrome.tabs.sendMessage(
       current_active_tabId,
       {
@@ -47,6 +66,11 @@ chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
         sendResponse({ message: "success" });
       }
     );
+  } else if (req.message === "get_theme") {
+    sendResponse({
+      message: "success",
+      payload: THEME,
+    });
   }
   return true;
 });
