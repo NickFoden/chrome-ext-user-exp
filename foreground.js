@@ -1,11 +1,11 @@
 const modal = document.createElement("div");
 
 modal.id = "chrome_ext_modal_backing";
-modal.innerHTML = `<span id="chrome_ext_modal_text1">
+modal.innerHTML = `<span id="chrome_ext_modal_text1" class="chrome_ext_span">
 Thanks for ranking this page...
 </span>
-<span id="chrome_ext_modal_text2">
-<span id="chrome_ext_modal_ranking"></span>'s out of 5.
+<span id="chrome_ext_modal_text2" class="chrome_ext_span">
+<span id="chrome_ext_modal_ranking" class="chrome_ext_span"></span>'s out of 5.
 </span>`;
 
 document.querySelector("body").appendChild(modal);

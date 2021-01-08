@@ -10,7 +10,7 @@ function init() {
     window.matchMedia &&
     window.matchMedia("(prefers-color-scheme: dark)").matches
   ) {
-    console.log("dark mode preferreed");
+    console.log("dark mode preferred");
     change_theme("dark");
   } else {
     chrome.runtime.sendMessage({ message: "get_theme" }, (response) => {
@@ -19,6 +19,11 @@ function init() {
       }
     });
   }
+  chrome.runtime.sendMessage({ message: "get_ranking_data" }, (response) => {
+    if (response.message === "success") {
+      change_ranking_data(response.payload.ranking, response.payload.comment);
+    }
+  });
 }
 
 function change_theme(theme) {
@@ -28,6 +33,11 @@ function change_theme(theme) {
   } else {
     body.classList.add("light_theme");
   }
+}
+
+function change_ranking_data(user_rank, user_comment) {
+  ranking.value = user_rank;
+  comments.value = user_comment;
 }
 init();
 

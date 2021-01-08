@@ -5,86 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <style>
-        #chrome_ext_modal_backing {
-            margin: 0;
-            left: 0;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-
-            background-color: rgba(0, 0, 0, 0);
-
-            pointer-events: none;
-            z-index: 1000;
-
-            font-family: monospace;
-        }
-
-        span {
-            color: rgba(255, 255, 255, 0);
-            text-align: center;
-            z-index: 1001;
-        }
-
-        #chrome_ext_modal_text1 {
-            font-size: 40px;
-            margin-bottom: 100px;
-        }
-
-        #chrome_ext_modal_text2 {
-            font-size: 80px;
-        }
-    </style>
+    <link rel="stylesheet" href="foreground.css">
 </head>
 
 <body>
-    <div id="chrome_ext_modal_backing">
-        <span id="chrome_ext_modal_text1">
-            Thanks for ranking this page...
-        </span>
-        <span id="chrome_ext_modal_text2">
-            <span id="chrome_ext_modal_ranking"></span>'s out of 5.
-        </span>
-    </div>
-
-    <script>
-        const modal_backing = document.querySelector('#chrome_ext_modal_backing');
-        const modal_text1 = document.querySelector('#chrome_ext_modal_text1');
-        const modal_text2 = document.querySelector('#chrome_ext_modal_text2');
-        const modal_ranking = document.querySelector('#chrome_ext_modal_ranking');
-
-        function display_message(ranking) {
-            modal_ranking.innerText = '*'.repeat(ranking);
-
-            modal_backing.style.transitionDuration = '3.0s';
-            modal_text1.style.transitionDuration = '2.5s';
-            modal_text2.style.transitionDuration = '2.5s';
-            modal_ranking.style.transitionDuration = '2.5s';
-
-            modal_backing.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
-            modal_text1.style.color = 'rgba(255, 255, 255, 1)';
-            modal_text2.style.color = 'rgba(255, 255, 255, 1)';
-            modal_ranking.style.color = 'rgba(255, 255, 255, 1)';
-
-
-            setTimeout(() => {
-                modal_backing.style.transitionDuration = '2.5s';
-
-                modal_backing.style.backgroundColor = 'rgba(0, 0, 0, 0.0)';
-                modal_text1.style.color = 'rgba(255, 255, 255, 0)';
-                modal_text2.style.color = 'rgba(255, 255, 255, 0)';
-                modal_ranking.style.color = 'rgba(255, 255, 255, 0)';
-            }, 3001)
-        }
-    </script>
+    <script src="foreground.js"> </script>
 </body>
 
 </html>

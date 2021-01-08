@@ -56,21 +56,66 @@ chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
       sendResponse({ message: "fail" });
     }
   } else if (req.message === "set_ranking_data") {
-    chrome.tabs.sendMessage(
-      current_active_tabId,
-      {
-        message: "display_message",
-        payload: req.payload.ranking,
-      },
-      () => {
-        sendResponse({ message: "success" });
-      }
-    );
+    try {
+      chrome.tabs.get(current_active_tabId, (tab) => {
+        let domain = tab.url.substring(tab.url.indexOf("/") + 2);
+        domain = domain.substring(0, domain.indexOf("/"));
+        const user_data_object = {};
+
+        user_data_object[domain] = {
+          ranking: req.payload.ranking,
+          comment: req.payload.comment,
+        };
+        chrome.storage.local.set(user_data_object, () => {
+          chrome.tabs.sendMessage(
+            current_active_tabId,
+            {
+              message: "display_message",
+              payload: req.payload.ranking,
+            },
+            () => {
+              sendResponse({ message: "success" });
+            }
+          );
+        });
+      });
+    } catch (err) {
+      sendResponse({ message: "fail" });
+    }
   } else if (req.message === "get_theme") {
     sendResponse({
       message: "success",
       payload: THEME,
     });
+  } else if (req.message === "get_ranking_data") {
+    try {
+      chrome.tabs.get(current_active_tabId, (tab) => {
+        let domain = tab.url.substring(tab.url.indexOf("/") + 2);
+        domain = domain.substring(0, domain.indexOf("/"));
+
+        chrome.storage.local.get([domain], (result) => {
+          if (result[domain]) {
+            sendResponse({
+              message: "success",
+              payload: {
+                ranking: result[domain].ranking,
+                comment: result[domain].comment,
+              },
+            });
+          } else {
+            sendResponse({
+              message: "success",
+              payload: { ranking: 1, comment: "" },
+            });
+          }
+        });
+      });
+    } catch (err) {
+      sendResponse({
+        message: "success",
+        payload: { ranking: 1, comment: "" },
+      });
+    }
   }
   return true;
 });
